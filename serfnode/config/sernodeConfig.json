@@ -1,0 +1,8 @@
+{
+  "event_handlers": [
+    "/usr/local/serfnode/util/logHelper.sh",
+    "user=/usr/local/serfnode/bin/user-router.sh",
+    "query=/usr/local/serfnode/bin/query-router.sh"
+  ],
+  "rpc_addr" : "0.0.0.0:7373"
+}
