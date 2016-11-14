@@ -12,6 +12,14 @@ SERF_LOG_FILE=/var/log/serfnode.log
 }
 EOF
 
+[[ -n $ROLE ]] && cat > $SERF_CONFIG_DIR/role.json <<EOF
+{
+  "tags": {
+    "role": "$ROLE"
+  }
+}
+EOF
+
 unset SERF_HOSTNAME
 while [ -z "$SERF_HOSTNAME" ]; do
   SERF_HOSTNAME=$(hostname -f 2>/dev/null)

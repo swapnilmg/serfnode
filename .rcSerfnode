@@ -21,12 +21,13 @@ debug() {
 }
 
 serf-start-first() {
-  CMD="docker run -d $DOCKER_OPTS --name ${NODE_PREFIX}0 -h ${NODE_PREFIX}0.$MYDOMAIN $IMAGE"
+  ROLE="primary"
+  CMD="docker run -d -e ROLE=$ROLE $DOCKER_OPTS --name ${NODE_PREFIX}0 -h ${NODE_PREFIX}0.$MYDOMAIN $IMAGE"
   debug $CMD
   $CMD
-  CMD="docker exec -t ${NODE_PREFIX}0 /usr/local/serfnode/bin/attachRole.sh primary"
-  debug $CMD
-  $CMD
+  #CMD="docker exec -t ${NODE_PREFIX}0 /usr/local/serfnode/bin/attachRole.sh primary"
+  #debug $CMD
+  #$CMD
 }
 
 get-join-ip() {
@@ -45,12 +46,13 @@ serf-start-node() {
     shift
     MORE_OPTIONS="$@"
   fi
-  CMD="docker run $MORE_OPTIONS -e SERF_JOIN_IP=$SERF_JOIN_IP $DOCKER_OPTS --name ${NODE_PREFIX}$NUMBER -h ${NODE_PREFIX}${NUMBER}.$MYDOMAIN $IMAGE"
+  ROLE="standby"
+  CMD="docker run $MORE_OPTIONS -e SERF_JOIN_IP=$SERF_JOIN_IP -e ROLE=$ROLE $DOCKER_OPTS --name ${NODE_PREFIX}$NUMBER -h ${NODE_PREFIX}${NUMBER}.$MYDOMAIN $IMAGE"
   debug $CMD
   $CMD
-  CMD="docker exec -t ${NODE_PREFIX}$NUMBER /usr/local/serfnode/bin/attachRole.sh standby"
-  debug $CMD
-  $CMD
+  #CMD="docker exec -t ${NODE_PREFIX}$NUMBER /usr/local/serfnode/bin/attachRole.sh standby"
+  #debug $CMD
+  #$CMD
 }
 
 serf-start-cluster() {
