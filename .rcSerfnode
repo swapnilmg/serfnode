@@ -31,7 +31,7 @@ serf-start-first() {
 }
 
 get-join-ip() {
-  : ${SERF_JOIN_IP:=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" ${NODE_PREFIX}0)}
+  : ${SERF_JOIN_IP:=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" ${NODE_PREFIX}${1:0})}
   #"
   debug SERF_JOIN_IP=$SERF_JOIN_IP
 }
