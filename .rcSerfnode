@@ -25,9 +25,6 @@ serf-start-first() {
   CMD="docker run -d -e ROLE=$ROLE $DOCKER_OPTS --name ${NODE_PREFIX}0 -h ${NODE_PREFIX}0.$MYDOMAIN $IMAGE"
   debug $CMD
   $CMD
-  #CMD="docker exec -t ${NODE_PREFIX}0 /usr/local/serfnode/bin/attachRole.sh primary"
-  #debug $CMD
-  #$CMD
 }
 
 get-join-ip() {
@@ -50,9 +47,6 @@ serf-start-node() {
   CMD="docker run $MORE_OPTIONS -e SERF_JOIN_IP=$SERF_JOIN_IP -e ROLE=$ROLE $DOCKER_OPTS --name ${NODE_PREFIX}$NUMBER -h ${NODE_PREFIX}${NUMBER}.$MYDOMAIN $IMAGE"
   debug $CMD
   $CMD
-  #CMD="docker exec -t ${NODE_PREFIX}$NUMBER /usr/local/serfnode/bin/attachRole.sh standby"
-  #debug $CMD
-  #$CMD
 }
 
 serf-start-cluster() {
@@ -63,4 +57,9 @@ serf-start-cluster() {
   for i in $(seq $((NUM_OF_NODES - 1))); do
     serf-start-node $i
   done
+}
+
+serf-clean(){
+  i=${1:?"please give a <NUMBER> parameter"}
+  while [ $i -ge 0 ]; do docker stop serfnode$i; docker rm serfnode$i; ((i--)); done
 }
