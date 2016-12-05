@@ -3,7 +3,7 @@
 : ${NODE_PREFIX=serfnode}
 : ${MYDOMAIN:=swapnilmg.sjsu.edu}
 : ${IMAGE:=swapnilmg/serfnode}
-: ${DOCKER_OPTS:="--dns 127.0.0.1 -p 7373 -p 7946"}
+: ${DOCKER_OPTS:="--cap-add=NET_ADMIN --dns=127.0.0.1 -p 7373 -p 7946"}
 : ${DEBUG:=1}
 
 serfnode-settings() {
@@ -25,6 +25,8 @@ serf-start-first() {
   CMD="docker run -d -e ROLE=$ROLE $DOCKER_OPTS --name ${NODE_PREFIX}0 -h ${NODE_PREFIX}0.$MYDOMAIN $IMAGE"
   debug $CMD
   $CMD
+  docker exec ${NODE_PREFIX}0 /usr/sbin/service apache2 start
+  docker exec ${NODE_PREFIX}0 /usr/local/serfnode/bin/attachIP.sh
 }
 
 get-join-ip() {

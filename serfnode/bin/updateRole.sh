@@ -9,6 +9,8 @@ while read p; do
     if [ "alive" = "`echo $p | awk {'print $3'}`" ]; then
         if [ "`hostname`" = "`echo $p | awk {'print $1'}`" ]; then
         	$SERF_BIN tags -set role=primary
+        	service apache2 start
+        	/usr/local/serfnode/bin/attachIP.sh
         fi;
         break;
     fi;

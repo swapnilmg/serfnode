@@ -3,7 +3,7 @@ FROM ubuntu:16.04
 MAINTAINER Swapnil Gaikwad <swapnil.gaikwad@sjsu.edu>
 
 #update Linux
-RUN apt-get update -y
+RUN apt-get -y update
 
 #install serf
 RUN apt-get install -y unzip curl
@@ -13,11 +13,14 @@ RUN unzip /tmp/serf.zip -d /usr/local/serfnode/bin
 RUN ln -s /usr/local/serfnode/bin/serf /usr/local/bin/serf
 RUN rm /tmp/serf.zip
 
+#install apache2
+RUN apt-get -y install apache2
+
 #environemnt variables
 ENV SERF_HOME /usr/local/serfnode
 
 #add
 ADD serfnode $SERF_HOME
 
-EXPOSE 7373 7946
+EXPOSE 7373 7946 80
 CMD $SERF_HOME/bin/startSerfAgent.sh

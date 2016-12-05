@@ -39,4 +39,6 @@ EOF
 }
 EOF
 
+echo "<html><body>Apache2 service running on $SERF_HOSTNAME</html></body>" > /var/www/html/index.html
+
 $SERF_BIN agent -config-dir $SERF_CONFIG_DIR --log-level debug $@ | tee -a $SERF_LOG_FILE 
