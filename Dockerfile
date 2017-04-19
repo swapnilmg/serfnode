@@ -19,7 +19,7 @@ RUN apt-get -y install apache2
 #environemnt variables
 ENV SERF_HOME /usr/local/serfnode
 
-#add
+#add serfnode directory
 ADD serfnode $SERF_HOME
 
 EXPOSE 7373 7946 80
